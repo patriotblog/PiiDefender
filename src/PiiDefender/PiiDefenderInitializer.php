@@ -14,7 +14,7 @@ class PiiDefenderInitializer extends \CDbMigration
         }
     }
     private function dbExist(){
-        $check = Yii::app()->db->schema->getTable('failed_attempts');
+        $check = \Yii::app()->db->schema->getTable('failed_attempts');
         if($check){
             return true;
         }else{

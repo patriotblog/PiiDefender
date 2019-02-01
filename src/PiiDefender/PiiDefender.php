@@ -78,7 +78,7 @@ class PiiDefender
         $this->initializer = new PiiDefenderInitializer();
         $this->initializer->check();
 
-        $this->ip = Yii::app()->request->getUserHostAddress();
+        $this->ip = \Yii::app()->request->getUserHostAddress();
 
         // Get lock record for the current ip.
         $this->locks = $this->getLocks();
@@ -129,7 +129,7 @@ class PiiDefender
 
         if (!$this->isLocked){
 
-            Yii::log('Now locked: ' . $this->ip, 'warning');
+            \Yii::log('Now locked: ' . $this->ip, 'warning');
 
             $model = new LockedIps();
             $model->ip = $this->ip;
@@ -138,8 +138,7 @@ class PiiDefender
             return ($model->save());
 
         }
-
-        Yii::log('Already locked: ' . $this->ip, 'warning');
+        \Yii::log('Already locked: ' . $this->ip, 'warning');
 
     }
 
@@ -154,9 +153,9 @@ class PiiDefender
 
             if ($lock->created_time > time() - $this->lockDuration){
 
-                Yii::log('Ip locked? YES', 'warning');
+                \Yii::log('Ip locked? YES', 'warning');
 
-                Yii::log('Time locked? ' . $lock->created_time, 'warning');
+                \Yii::log('Time locked? ' . $lock->created_time, 'warning');
 
                 return true;
 
@@ -164,7 +163,7 @@ class PiiDefender
 
         }
 
-        Yii::log('Ip locked? NO', 'warning');
+        \Yii::log('Ip locked? NO', 'warning');
 
         return false;
 
@@ -180,13 +179,13 @@ class PiiDefender
 
         if ($this->timesLocked >= $this->locksBeforeBan){
 
-            Yii::log('Ip banned? YES', 'warning');
+            \Yii::log('Ip banned? YES', 'warning');
 
             return true;
 
         } else{
 
-            Yii::log('Ip banned? NO', 'warning');
+            \Yii::log('Ip banned? NO', 'warning');
 
             return false;
 
@@ -212,12 +211,11 @@ class PiiDefender
 
     /**
      * Get the number of failed logins for the current ip.
-     * @param type $ip The ip of the current user.
      * @return int
      */
     public function countLoginErrors(){
 
-        $criteria = new CDbCriteria();
+        $criteria = new \CDbCriteria();
         $criteria->addColumnCondition([
             'ip'=>$this->ip,
         ]);
@@ -256,19 +254,19 @@ class PiiDefender
         }
 
 
-        Yii::log('Rows inserted: ' . json_encode($model->errors), 'warning');
+        \Yii::log('Rows inserted: ' . json_encode($model->errors), 'warning');
 
     }
 
     public function removeOld(){
 
-	    $criteria = new CDbCriteria();
+	    $criteria = new \CDbCriteria();
 	    $criteria->addCondition('created_time<:p1');
 	    $criteria->params[':p1'] = (time() - $this->failedLoginsTestDuration);
 
 	    $deleted = FailedAttempts::model()->deleteAll($criteria);
 
-	    Yii::log('Rows deleted: ' . $deleted, 'warning');
+	    \Yii::log('Rows deleted: ' . $deleted, 'warning');
     }
 
 

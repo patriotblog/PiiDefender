@@ -69,21 +69,21 @@ class LockedIps extends \CActiveRecord
 	 * models according to data in model fields.
 	 * - Pass data provider to CGridView, CListView or any similar widget.
 	 *
-	 * @return CActiveDataProvider the data provider that can return the models
+	 * @return \CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
 	public function search()
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria=new \CDbCriteria;
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('ip',$this->ip,true);
 		$criteria->compare('created_time',$this->created_time);
 		$criteria->compare('status',$this->status);
 
-		return new CActiveDataProvider($this, array(
+		return new \CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
@@ -96,7 +96,9 @@ class LockedIps extends \CActiveRecord
 	 */
 	public static function model($className=__CLASS__)
 	{
-		return parent::model($className);
+	    /** @var LockedIps $model */
+		$model =  parent::model($className);
+		return $model;
 	}
 
 
@@ -109,7 +111,7 @@ class LockedIps extends \CActiveRecord
             }
 
             if(empty($this->status)){
-                $this->status = self::STATUS_ACTIVE;
+                $this->status = PiiDefender::STATUS_ACTIVE;
             }
 
             return true;
