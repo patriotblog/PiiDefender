@@ -9,7 +9,7 @@ namespace PiiDefender;
  * @property integer $created_time
  * @property integer $status
  */
-class LockedIps extends CActiveRecord
+class LockedIps extends \CActiveRecord
 {
 	/**
 	 * @return string the associated database table name

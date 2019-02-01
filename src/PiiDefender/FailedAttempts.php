@@ -8,7 +8,7 @@ namespace PiiDefender;
  * @property string $ip
  * @property integer $created_time
  */
-class FailedAttempts extends CActiveRecord
+class FailedAttempts extends \CActiveRecord
 {
     const STATUS_ACTIVE = 2;
     const STATUS_DEACTIVE = 1;

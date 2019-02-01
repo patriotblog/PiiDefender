@@ -6,7 +6,7 @@ namespace PiiDefender;
  * Date: 1/14/19
  * Time: 3:37 PM
  */
-class PiiDefenderInitializer extends CDbMigration
+class PiiDefenderInitializer extends \CDbMigration
 {
     public function check(){
         if(!$this->dbExist()){
